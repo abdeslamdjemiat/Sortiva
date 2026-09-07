@@ -1,4 +1,4 @@
-name: Build Sortiva APK
+name: Build Burger Rush APK
 
 on:
   workflow_dispatch:
@@ -13,28 +13,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
+      - name: Extract Burger Rush project
+        run: |
+          unzip -o Burger_Rush_Project_v2.zip
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Android
-        uses: android-actions/setup-android@v3
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
         with:
           gradle-version: '8.9'
 
-      - name: Install Android SDK
+      - name: Build APK
         run: |
-          yes | sdkmanager --licenses || true
-          sdkmanager "platforms;android-35" "build-tools;35.0.0"
+          cd Burger_Ready_Android_Project_Final
+          gradle :app:assembleDebug
 
-      - name: Extract Sortiva project
-        run: |
-          ZIP_FILE=$(find . -maxdepth 1 -type f -name "*.zip" | head -n 1)
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Burger-Rush-APK
+          path: Burger_Ready_Android_Project_Final/app/build/outputs/apk/debug/app-debug.apk          ZIP_FILE=$(find . -maxdepth 1 -type f -name "*.zip" | head -n 1)
           unzip -o "$ZIP_FILE"
 
       - name: Build APK
