@@ -37,15 +37,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Burger-Rush-APK
-          path: Burger_Ready_Android_Project_Final/app/build/outputs/apk/debug/app-debug.apk          ZIP_FILE=$(find . -maxdepth 1 -type f -name "*.zip" | head -n 1)
-          unzip -o "$ZIP_FILE"
-
-      - name: Build APK
-        run: |
-          gradle -p sortiva_apk_project :app:assembleDebug --no-daemon
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: Sortiva-APK
-          path: sortiva_apk_project/app/build/outputs/apk/debug/app-debug.apk
+          path: Burger_Ready_Android_Project_Final/app/build/outputs/apk/debug/app-debug.apk
